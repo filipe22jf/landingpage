@@ -322,7 +322,6 @@ p {
     border-color: var(--cor-destaque);
 }
 
-/* O fundo escuro do modal */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -335,6 +334,7 @@ p {
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(5px);
+    padding: 1rem; /* Adiciona um respiro nas laterais em telas muito pequenas */
 }
 
 /* O conteúdo do modal */
@@ -343,34 +343,44 @@ p {
     padding: 2rem;
     border-radius: 16px;
     border: 1px solid var(--borda-elementos, #333);
-    width: 90%;
-    max-width: 800px;
+    width: 100%; /* Ocupa 100% do espaço do overlay (com o padding) */
+    max-width: 800px; /* Largura máxima em desktops */
     position: relative;
     text-align: center;
+
+    /* --- AS PROPRIEDADES MÁGICAS --- */
+    max-height: 90vh; /* Altura máxima de 90% da tela do dispositivo */
+    overflow-y: auto; /* Adiciona uma barra de rolagem APENAS se o conteúdo for maior que a altura máxima */
 }
 
 .modal-close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: none;
+    position: sticky; /* <-- MUDANÇA IMPORTANTE */
+    top: 0;          /* <-- MUDANÇA IMPORTANTE */
+    right: 0;        /* <-- MUDANÇA IMPORTANTE */
+    float: right;    /* Garante que ele fique à direita */
+    background: #2a2a2a;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
     border: none;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     color: var(--texto-secundario);
     cursor: pointer;
+    z-index: 10; /* Garante que o botão fique acima do conteúdo que rola */
+    line-height: 40px;
 }
 
-/* --- ESTILOS PARA O CONTEÚDO DO MODAL (FORA DA MEDIA QUERY) --- */
+/* --- ESTILOS PARA O CONTEÚDO DO MODAL --- */
 
 .instrucoes-container {
-    display: flex; /* <-- IMPORTANTE: Define como flex container */
+    display: flex;
     gap: 2rem;
     margin-top: 1.5rem;
     justify-content: center;
 }
 
 .instrucao-bloco {
-    flex: 1; /* Faz com que os blocos dividam o espaço igualmente */
+    flex: 1;
 }
 
 .instrucao-bloco h3 {
@@ -379,16 +389,20 @@ p {
 }
 
 .instrucao-bloco img {
-    max-width: 100%;
+    max-width: 100%; /* Garante que a imagem nunca seja maior que seu contêiner */
+    height: auto; /* Mantém a proporção da imagem */
     border-radius: 8px;
     border: 1px solid #444;
 }
 
 
-/* --- RESPONSIVIDADE PARA TELAS PEQUENAS --- */
+/* --- RESPONSIVIDADE PARA O MODAL EM TELAS PEQUENAS --- */
 @media (max-width: 768px) {
-    /* A única coisa que muda em telas pequenas é a direção do flex */
+    .modal-content {
+        padding: 1.5rem; /* Menos padding em telas menores */
+    }
+
     .instrucoes-container {
-        flex-direction: column;
+        flex-direction: column; /* Coloca as instruções uma sobre a outra */
     }
 }
