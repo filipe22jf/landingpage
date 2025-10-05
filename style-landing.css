@@ -344,7 +344,7 @@ p {
     border-radius: 16px;
     border: 1px solid var(--borda-elementos, #333);
     width: 90%;
-    max-width: 800px; /* Largura máxima do modal */
+    max-width: 800px;
     position: relative;
     text-align: center;
 }
@@ -360,15 +360,17 @@ p {
     cursor: pointer;
 }
 
+/* --- ESTILOS PARA O CONTEÚDO DO MODAL (FORA DA MEDIA QUERY) --- */
+
 .instrucoes-container {
-    display: flex;
+    display: flex; /* <-- IMPORTANTE: Define como flex container */
     gap: 2rem;
     margin-top: 1.5rem;
     justify-content: center;
 }
 
 .instrucao-bloco {
-    flex: 1;
+    flex: 1; /* Faz com que os blocos dividam o espaço igualmente */
 }
 
 .instrucao-bloco h3 {
@@ -382,8 +384,11 @@ p {
     border: 1px solid #444;
 }
 
-/* Responsividade para telas pequenas */
+
+/* --- RESPONSIVIDADE PARA TELAS PEQUENAS --- */
 @media (max-width: 768px) {
+    /* A única coisa que muda em telas pequenas é a direção do flex */
     .instrucoes-container {
         flex-direction: column;
+    }
 }
