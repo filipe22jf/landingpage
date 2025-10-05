@@ -25,12 +25,13 @@ body {
     text-align: center;
     
     /* Configuração para o vídeo/gif de fundo */
-    overflow: hidden; /* Esconde barras de rolagem desnecessárias */
+    /* overflow: hidden; */ /* <<-- COMENTE OU DELETE ESTA LINHA */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    padding: 2rem 1rem; /* Adiciona um padding para evitar que o conteúdo grude nas bordas */
 }
 
 /* --- O GIF DE FUNDO --- */
@@ -381,6 +382,10 @@ p {
 
 .instrucao-bloco {
     flex: 1;
+    min-width: 0; /* <-- MÁGICA: Permite que o item flexível encolha corretamente */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .instrucao-bloco h3 {
@@ -389,7 +394,8 @@ p {
 }
 
 .instrucao-bloco img {
-    max-width: 100%; /* Garante que a imagem nunca seja maior que seu contêiner */
+    width: 100%; /* Força a imagem a ter 100% da largura do seu contêiner (.instrucao-bloco) */
+    max-width: 300px; /* Define uma largura máxima para não ficar gigante no desktop */
     height: auto; /* Mantém a proporção da imagem */
     border-radius: 8px;
     border: 1px solid #444;
