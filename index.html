@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>FitCraft - Seu App de Treino</title>
+    <link rel="stylesheet" href="style-landing.css">
+    <link rel="manifest" href="/manifest.json"> <!-- Essencial para PWA -->
+</head>
+<body>
+    <video autoplay muted loop id="video-background">
+    <source src="video1.mp4" type="video/mp4">
+</video>
+
+    <h1>Bem-vindo ao FitCraft</h1>
+    <p>Acesse a versão ideal para você.</p>
+
+    <!-- ======================================================= -->
+<!--   COLE A NOVA ESTRUTURA DOS CELULARES AQUI            -->
+<!-- ======================================================= -->
+<div class="celulares-container">
+    <!-- Celular do Professor -->
+    <a href="https://fit-craft3-0.vercel.app/" class="celular-mockup" id="celular-professor">
+        <div class="celular-tela">
+            <img src="fitcraft_logo.png" alt="Ícone App Professor">
+        </div>
+        <div class="celular-botao-home"></div>
+        <span class="celular-label">Acessar App Professor</span>
+    </a>
+
+    <!-- Celular do Aluno -->
+    <a href="https://fitcraft-aluno.vercel.app/" class="celular-mockup" id="celular-aluno">
+        <div class="celular-tela">
+            <img src="logo.png" alt="Ícone App Aluno">
+        </div>
+        <div class="celular-botao-home"></div>
+        <span class="celular-label">Acessar App Aluno</span>
+    </a>
+</div>
+<!-- ======================================================= -->
+
+
+    <!-- Botão de Instalação (inicialmente escondido) -->
+   <button id="btn-instalar" style="display: none;">⭐ Instalar Aplicativo</button>
+   <button id="btn-ajuda-instalacao">Como Instalar o App?</button>
+</button>
+
+    <div id="modal-ajuda" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <button id="btn-fechar-modal" class="modal-close-btn">&times;</button>
+        <h2>Como Instalar o FitCraft</h2>
+        <p>Siga o guia para o seu sistema operacional.</p>
+        <div class="instrucoes-container">
+           <div class="instrucao-bloco">
+    <h3>Para iPhone (iOS)</h3>
+    <img src="instrucao-ios.png" alt="Instruções para iPhone">
+</div>
+<div class="instrucao-bloco">
+    <h3>Para Android</h3>
+    <img src="instrucao-android.png" alt="Instruções para Android">
+</div>
+        </div>
+    </div>
+</div>
+    <!-- Modal de Instruções para iPhone (inicialmente escondido) -->
+    <div id="ios-install-prompt" style="display: none;">
+        <div class="prompt-content">
+            <h3>Instale o FitCraft no seu iPhone</h3>
+            <p>Para uma melhor experiência, adicione nosso app à sua tela de início:</p>
+            <ol>
+                <li>Toque no ícone de <strong>Compartilhar</strong> <img src="/images/share-icon.png" alt="Ícone Compartilhar"> na barra do Safari.</li>
+                <li>Role para baixo e toque em <strong>"Adicionar à Tela de Início"</strong> <img src="/images/add-to-home-icon.png" alt="Ícone Adicionar">.</li>
+            </ol>
+            <button id="btn-fechar-prompt">Entendi</button>
+        </div>
+    </div>
+
+    <script src="install-script.js"></script>
+</body>
+</html>

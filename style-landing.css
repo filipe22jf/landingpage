@@ -1,0 +1,389 @@
+/* Arquivo: style-landing.css */
+
+/* Importando a mesma fonte do seu app para manter a consistência */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap' );
+
+/* Variáveis de Cor (baseadas no seu app) */
+:root {
+    --preto-fundo: #000000;
+    --texto-principal: #e5e5e5;
+    --texto-secundario: #808080;
+    --cor-destaque: #00ff7f;
+    --cor-link: #00bfff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--texto-principal);
+    background-color: var(--preto-fundo);
+    text-align: center;
+    
+    /* Configuração para o vídeo/gif de fundo */
+    overflow: hidden; /* Esconde barras de rolagem desnecessárias */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* --- O GIF DE FUNDO --- */
+#video-background {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100; /* Joga o GIF para trás de todo o conteúdo */
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover; /* Garante que o GIF cubra toda a tela sem distorcer */
+    filter: brightness(0.4); /* Escurece um pouco para o texto ficar legível */
+}
+
+/* --- Conteúdo Principal --- */
+main {
+    z-index: 10; /* Garante que o conteúdo fique na frente do GIF */
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para destacar o texto */
+    border-radius: 16px;
+    backdrop-filter: blur(5px); /* Efeito de vidro */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+h1 {
+    font-size: 4rem; /* Aumenta o tamanho para mais impacto */
+    font-weight: 700;
+    color: #fff; /* O texto em si será branco */
+    margin-bottom: 1rem;
+    
+    /* O EFEITO DE BRILHO VERDE */
+    text-shadow: 
+        0 0 5px rgba(0, 255, 127, 0.5),
+        0 0 10px rgba(0, 255, 127, 0.5),
+        0 0 20px rgba(0, 255, 127, 0.5),
+        0 0 40px var(--cor-destaque); /* O brilho principal */
+
+    /* Animação de "pulsação" do brilho */
+    animation: pulsate 5s infinite ease-in-out;
+}
+
+p {
+    font-size: 1.3rem;
+    color: var(--texto-secundario);
+    margin-bottom: 3rem; /* Aumenta a distância para os celulares */
+    text-transform: uppercase; /* Deixa o texto em maiúsculas */
+    letter-spacing: 2px; /* Aumenta o espaçamento entre as letras */
+    font-weight: 500;
+}
+
+/* --- ANIMAÇÃO DE PULSAÇÃO PARA O H1 --- */
+@keyframes pulsate {
+    0% {
+        text-shadow: 
+            0 0 5px rgba(0, 255, 127, 0.5),
+            0 0 10px rgba(0, 255, 127, 0.5),
+            0 0 20px rgba(0, 255, 127, 0.5),
+            0 0 40px var(--cor-destaque);
+    }
+    50% {
+        text-shadow: 
+            0 0 10px rgba(0, 255, 127, 0.7),
+            0 0 20px rgba(0, 255, 127, 0.7),
+            0 0 40px rgba(0, 255, 127, 0.7),
+            0 0 80px var(--cor-destaque);
+    }
+    100% {
+        text-shadow: 
+            0 0 5px rgba(0, 255, 127, 0.5),
+            0 0 10px rgba(0, 255, 127, 0.5),
+            0 0 20px rgba(0, 255, 127, 0.5),
+            0 0 40px var(--cor-destaque);
+    }
+}
+
+/* --- Botões --- */
+.botoes-app {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.btn-link, #btn-instalar {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+/* Botão Professor */
+.btn-link:first-child {
+    background-color: var(--cor-destaque);
+    color: var(--preto-fundo);
+}
+
+.btn-link:first-child:hover {
+    background-color: transparent;
+    border-color: var(--cor-destaque);
+    color: var(--cor-destaque);
+    transform: translateY(-3px);
+}
+
+/* Botão Aluno */
+.btn-link:last-child {
+    background-color: var(--cor-link);
+    color: var(--preto-fundo);
+}
+
+.btn-link:last-child:hover {
+    background-color: transparent;
+    border-color: var(--cor-link);
+    color: var(--cor-link);
+    transform: translateY(-3px);
+}
+
+/* Botão Instalar */
+#btn-instalar {
+    background: linear-gradient(45deg, #ffc107, #ff6347);
+    color: var(--preto-fundo);
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+#btn-instalar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ffc107;
+}
+
+/* --- Modal de Instruções para iOS --- */
+#ios-install-prompt {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    z-index: 1000;
+    padding: 1.5rem;
+    border-top: 1px solid var(--borda-elementos);
+    display: none; /* Começa escondido */
+    flex-direction: column;
+    align-items: center;
+}
+
+#ios-install-prompt h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+#ios-install-prompt ol {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+#ios-install-prompt li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#ios-install-prompt img {
+    width: 24px;
+    height: 24px;
+    background: #333;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+#btn-fechar-prompt {
+    background: var(--cor-destaque);
+    color: var(--preto-fundo);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+/* ======================================================= */
+/*   CSS PARA OS MOCKUPS DE CELULAR                        */
+/* ======================================================= */
+
+.celulares-container {
+    display: flex;
+    gap: 3rem; /* Espaço entre os celulares */
+    margin-bottom: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.celular-mockup {
+    position: relative;
+    width: 150px; /* Largura do celular */
+    height: 300px; /* Altura do celular */
+    background: #1a1a1a; /* Cor do corpo do celular */
+    border: 8px solid #0d0d0d; /* Borda preta grossa */
+    border-radius: 24px; /* Bordas arredondadas */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.celular-mockup:hover {
+    transform: translateY(-10px) scale(1.05); /* Efeito de levantar ao passar o mouse */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+}
+
+.celular-tela {
+    width: 100%;
+    height: 85%;
+    background: #000; /* Fundo da tela preto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.celular-tela img {
+    width: 80px; /* Tamanho do ícone do app */
+    height: 80px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.celular-mockup:hover .celular-tela img {
+    transform: scale(1.1); /* Efeito de zoom no ícone */
+}
+
+.celular-botao-home {
+    width: 40px;
+    height: 5px;
+    background: #444;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+}
+
+.celular-label {
+    position: absolute;
+    bottom: -55px; /* Posição do texto abaixo do celular */
+    left: 0;   /* <-- ADICIONE ESTA LINHA */
+    right: 0;  /* <-- E ESTA LINHA */
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--texto-principal);
+    transition: color 0.3s ease;
+}
+
+/* Cores específicas para cada celular */
+#celular-professor:hover {
+    box-shadow: 0 0 30px var(--cor-destaque);
+}
+#celular-professor:hover .celular-label {
+    color: var(--cor-destaque);
+}
+
+#celular-aluno:hover {
+    box-shadow: 0 0 30px var(--cor-link);
+}
+#celular-aluno:hover .celular-label {
+    color: var(--cor-link);
+}
+#btn-ajuda-instalacao {
+    background: none;
+    border: 1px solid var(--texto-secundario);
+    color: var(--texto-secundario);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 3rem;    /* <-- ADICIONE ESTA LINHA */
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+#btn-ajuda-instalacao:hover {
+    background: var(--cor-destaque);
+    color: var(--preto-fundo);
+    border-color: var(--cor-destaque);
+}
+
+/* O fundo escuro do modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+/* O conteúdo do modal */
+.modal-content {
+    background: #1a1a1a;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid var(--borda-elementos, #333);
+    width: 90%;
+    max-width: 800px; /* Largura máxima do modal */
+    position: relative;
+    text-align: center;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    color: var(--texto-secundario);
+    cursor: pointer;
+}
+
+.instrucoes-container {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+}
+
+.instrucao-bloco {
+    flex: 1;
+}
+
+.instrucao-bloco h3 {
+    margin-bottom: 1rem;
+    color: var(--cor-destaque);
+}
+
+.instrucao-bloco img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 768px) {
+    .instrucoes-container {
+        flex-direction: column;
+}
