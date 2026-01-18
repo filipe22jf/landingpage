@@ -4,95 +4,535 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitCraft - Seu App de Treino</title>
-    <link rel="stylesheet" href="style-landing.css">
-    <link rel="manifest" href="/manifest.json"> <!-- Essencial para PWA -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg: #000000;
+            --card-bg: #0a0a0a;
+            --text: #ffffff;
+            --text-dim: #666666;
+            --accent-green: #00ff7f;
+            --accent-blue: #00d4ff;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Video BG */
+        .video-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.15;
+        }
+        
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(50%);
+        }
+        
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at top, rgba(0, 255, 127, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(0, 212, 255, 0.05) 0%, transparent 50%);
+        }
+        
+        /* Layout */
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .brand {
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 900;
+            letter-spacing: -4px;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .brand-text {
+            background: linear-gradient(180deg, #ffffff 0%, var(--accent-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .brand::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+        }
+        
+        .slogan {
+            font-size: 1rem;
+            color: var(--text-dim);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        
+        /* Cards Container */
+        .cards-wrapper {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+        }
+        
+        .app-card {
+            flex: 1;
+            min-width: 320px;
+            max-width: 420px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .app-card.blue::before {
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+        }
+        
+        .app-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 127, 0.02);
+        }
+        
+        .app-card.blue:hover {
+            border-color: var(--accent-blue);
+            background: rgba(0, 212, 255, 0.02);
+        }
+        
+        .app-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* Icon Area */
+        .icon-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        
+        .icon-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .app-card:hover .icon-circle {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 127, 0.05);
+            transform: rotate(10deg) scale(1.1);
+        }
+        
+        .app-card.blue:hover .icon-circle {
+            border-color: var(--accent-blue);
+            background: rgba(0, 212, 255, 0.05);
+        }
+        
+        .icon-circle img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Text */
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            min-height: 2.2rem;
+        }
+        
+        .card-desc {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            min-height: 2.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            align-items: stretch;
+        }
+        
+        .btn {
+            padding: 1.1rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .btn-primary {
+            background: var(--accent-green);
+            color: #000;
+            border: 2px solid var(--accent-green);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .app-card.blue .btn-primary {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 255, 127, 0.3);
+        }
+        
+        .app-card.blue .btn-primary:hover {
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.03);
+        }
+        
+        .android-svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+        
+        /* Help Section */
+        .help-section {
+            margin-top: 2rem;
+        }
+        
+        .help-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .help-btn:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            background: rgba(0, 255, 127, 0.05);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            padding: 3rem;
+            max-width: 850px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            color: var(--text);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            background: var(--accent-green);
+            color: #000;
+            border-color: var(--accent-green);
+            transform: rotate(90deg);
+        }
+        
+        .modal h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .modal-subtitle {
+            text-align: center;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+        
+        .instructions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .instruction-item {
+            text-align: center;
+        }
+        
+        .instruction-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+        
+        .instruction-item img {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cards-wrapper {
+                flex-direction: column;
+            }
+            
+            .app-card {
+                min-width: 100%;
+            }
+            
+            .brand {
+                font-size: 3.5rem;
+            }
+            
+            .modal-container {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <video autoplay muted loop playsinline id="video-background">
-        <source src="video1.mp4" type="video/mp4">
-    </video>
-
-    <h1>Bem-vindo ao FitCraft</h1>
-    <p>Acesse a versão ideal para você.</p>
-
-    <!-- ======================================================= -->
-    <!--   ESTRUTURA DOS CELULARES                             -->
-    <!-- ======================================================= -->
-    <div class="celulares-container">
-        <!-- Celular do Professor -->
-        <a href="https://professor.fitcraft.com.br/" class="celular-mockup" id="celular-professor" target="_blank" rel="noopener noreferrer">
-            <div class="celular-tela">
-                <img src="fitcraft_logo.png" alt="Ícone App Professor">
-            </div>
-            <div class="celular-botao-home"></div>
-            <span class="celular-label">Acessar App Professor</span>
-        </a>
-
-        <!-- Celular do Aluno -->
-        <a href="https://aluno.fitcraft.com.br/" class="celular-mockup" id="celular-aluno" target="_blank" rel="noopener noreferrer">
-            <div class="celular-tela">
-                <img src="logo.png" alt="Ícone App Aluno">
-            </div>
-            <div class="celular-botao-home"></div>
-            <span class="celular-label">Acessar App Aluno</span>
-        </a>
+    <div class="video-wrapper">
+        <video autoplay muted loop playsinline>
+            <source src="video1.mp4" type="video/mp4">
+        </video>
     </div>
-    <!-- ======================================================= -->
-
-    <!-- ======================================================= -->
-    <!--      BOTÕES DE DOWNLOAD (LINKS APPGEYSER )             -->
-    <!-- ======================================================= -->
-    <div class="download-container">
-        <!-- Botão para o APK do Professor -->
-        <a href="https://appsgeyser.io/19452059/FitCraft" target="_blank" rel="noopener noreferrer" class="botao-download-apk">
-            <img src="https://img.icons8.com/fluency/48/android-os.png" alt="Ícone Android"/>
-            Baixar App Professor (APK )
-        </a>
-
-        <!-- Botão para o APK do Aluno -->
-        <a href="https://appsgeyser.io/19452052/FitCraft%20Aluno" target="_blank" rel="noopener noreferrer" class="botao-download-apk">
-            <img src="https://img.icons8.com/fluency/48/android-os.png" alt="Ícone Android"/>
-            Baixar App Aluno (APK )
-        </a>
-    </div>
-    <!-- ======================================================= -->
-
-    <!-- Botão de Instalação PWA (inicialmente escondido) -->
-    <button id="btn-instalar" style="display: none;">⭐ Instalar Aplicativo</button>
-    <button id="btn-ajuda-instalacao">Como Instalar o App?</button>
-
-    <!-- Modal de Ajuda para Instalação -->
-    <div id="modal-ajuda" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <button id="btn-fechar-modal" class="modal-close-btn">&times;</button>
-            <h2>Como Instalar o FitCraft</h2>
-            <p>Siga o guia para o seu sistema operacional.</p>
-            <div class="instrucoes-container">
-                <div class="instrucao-bloco">
-                    <h3>Para iPhone (iOS)</h3>
-                    <img src="instrucao-ios.png" alt="Instruções para iPhone">
+    <div class="gradient-overlay"></div>
+    
+    <div class="page-wrapper">
+        <header class="header">
+            <h1 class="brand">
+                <span class="brand-text">FitCraft</span>
+            </h1>
+            <p class="slogan"></p>
+        </header>
+        
+        <div class="cards-wrapper">
+            <!-- Professor Card -->
+            <div class="app-card">
+                <div class="icon-wrapper">
+                    <div class="icon-circle">
+                        <img src="fitcraft_logo.png" alt="Professor">
+                    </div>
                 </div>
-                <div class="instrucao-bloco">
-                    <h3>Para Android</h3>
-                    <img src="instrucao-android.png" alt="Instruções para Android">
+                <h2 class="card-title">Professor</h2>
+                <p class="card-desc">Gerencie alunos e crie treinos personalizados</p>
+                <div class="btn-group">
+                    <a href="https://professor.fitcraft.com.br/" class="btn btn-primary">
+                        <span>→</span>
+                        <span>Acessar Plataforma</span>
+                    </a>
+                    <a href="https://appsgeyser.io/19452059/FitCraft" class="btn btn-secondary">
+                        <svg class="android-svg" viewBox="0 0 24 24">
+                            <path d="M17.6,9.48l1.84-3.18c0.16-0.31,0.04-0.69-0.26-0.85c-0.29-0.15-0.65-0.06-0.83,0.22l-1.88,3.24 c-2.86-1.21-6.08-1.21-8.94,0L5.65,5.67c-0.19-0.29-0.58-0.38-0.87-0.2C4.5,5.65,4.41,6.01,4.56,6.3L6.4,9.48 C3.3,11.25,1.28,14.44,1,18h22C22.72,14.44,20.7,11.25,17.6,9.48z M7,15.25c-0.69,0-1.25-0.56-1.25-1.25 c0-0.69,0.56-1.25,1.25-1.25S8.25,13.31,8.25,14C8.25,14.69,7.69,15.25,7,15.25z M17,15.25c-0.69,0-1.25-0.56-1.25-1.25 c0-0.69,0.56-1.25,1.25-1.25s1.25,0.56,1.25,1.25C18.25,14.69,17.69,15.25,17,15.25z"/>
+                        </svg>
+                        <span>Download Android</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Aluno Card -->
+            <div class="app-card blue">
+                <div class="icon-wrapper">
+                    <div class="icon-circle">
+                        <img src="logo.png" alt="Aluno">
+                    </div>
+                </div>
+                <h2 class="card-title">Aluno</h2>
+                <p class="card-desc">Acompanhe seus treinos e evolução física</p>
+                <div class="btn-group">
+                    <a href="https://aluno.fitcraft.com.br/" class="btn btn-primary">
+                        <span>→</span>
+                        <span>Acessar Plataforma</span>
+                    </a>
+                    <a href="https://appsgeyser.io/19452052/FitCraft%20Aluno" class="btn btn-secondary">
+                        <svg class="android-svg" viewBox="0 0 24 24">
+                            <path d="M17.6,9.48l1.84-3.18c0.16-0.31,0.04-0.69-0.26-0.85c-0.29-0.15-0.65-0.06-0.83,0.22l-1.88,3.24 c-2.86-1.21-6.08-1.21-8.94,0L5.65,5.67c-0.19-0.29-0.58-0.38-0.87-0.2C4.5,5.65,4.41,6.01,4.56,6.3L6.4,9.48 C3.3,11.25,1.28,14.44,1,18h22C22.72,14.44,20.7,11.25,17.6,9.48z M7,15.25c-0.69,0-1.25-0.56-1.25-1.25 c0-0.69,0.56-1.25,1.25-1.25S8.25,13.31,8.25,14C8.25,14.69,7.69,15.25,7,15.25z M17,15.25c-0.69,0-1.25-0.56-1.25-1.25 c0-0.69,0.56-1.25,1.25-1.25s1.25,0.56,1.25,1.25C18.25,14.69,17.69,15.25,17,15.25z"/>
+                        </svg>
+                        <span>Download Android</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="help-section">
+            <button class="help-btn" onclick="document.getElementById('helpModal').classList.add('active')">
+                Como instalar o aplicativo?
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-container">
+            <button class="modal-close" onclick="document.getElementById('helpModal').classList.remove('active')">×</button>
+            <h2>Guia de Instalação</h2>
+            <p class="modal-subtitle">Escolha seu sistema operacional</p>
+            <div class="instructions">
+                <div class="instruction-item">
+                    <h3>📱 iOS (iPhone)</h3>
+                    <img src="instrucao-ios.png" alt="Instruções iOS">
+                </div>
+                <div class="instruction-item">
+                    <h3>🤖 Android</h3>
+                    <img src="instrucao-android.png" alt="Instruções Android">
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal de Instruções para iPhone (inicialmente escondido) -->
-    <div id="ios-install-prompt" style="display: none;">
-        <div class="prompt-content">
-            <h3>Instale o FitCraft no seu iPhone</h3>
-            <p>Para uma melhor experiência, adicione nosso app à sua tela de início:</p>
-            <ol>
-                <li>Toque no ícone de <strong>Compartilhar</strong> <img src="/images/share-icon.png" alt="Ícone Compartilhar"> na barra do Safari.</li>
-                <li>Role para baixo e toque em <strong>"Adicionar à Tela de Início"</strong> <img src="/images/add-to-home-icon.png" alt="Ícone Adicionar">.</li>
-            </ol>
-            <button id="btn-fechar-prompt">Entendi</button>
-        </div>
-    </div>
-
-    <script src="install-script.js"></script>
 </body>
 </html>
