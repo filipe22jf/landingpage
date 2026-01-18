@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitCraft - Seu App de Treino</title>
     <link rel="stylesheet" href="style-landing.css">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.json"> <!-- Essencial para PWA -->
 </head>
 <body>
     <video autoplay muted loop playsinline id="video-background">
@@ -15,15 +15,21 @@
     <h1>Bem-vindo ao FitCraft</h1>
     <p>Acesse a versão ideal para você.</p>
 
+    <!-- ======================================================= -->
+    <!--   ESTRUTURA DOS CELULARES                             -->
+    <!-- ======================================================= -->
     <div class="celulares-container">
-        <a href="https://professor.fitcraft.com.br/" class="celular-mockup" id="celular-professor">
+        <!-- Celular do Professor -->
+        <a href="https://professor.fitcraft.com.br/" class="celular-mockup" id="celular-professor" target="_blank" rel="noopener noreferrer">
             <div class="celular-tela">
                 <img src="fitcraft_logo.png" alt="Ícone App Professor">
             </div>
             <div class="celular-botao-home"></div>
             <span class="celular-label">Acessar App Professor</span>
         </a>
-        <a href="https://aluno.fitcraft.com.br/" class="celular-mockup" id="celular-aluno">
+
+        <!-- Celular do Aluno -->
+        <a href="https://aluno.fitcraft.com.br/" class="celular-mockup" id="celular-aluno" target="_blank" rel="noopener noreferrer">
             <div class="celular-tela">
                 <img src="logo.png" alt="Ícone App Aluno">
             </div>
@@ -31,28 +37,31 @@
             <span class="celular-label">Acessar App Aluno</span>
         </a>
     </div>
+    <!-- ======================================================= -->
 
     <!-- ======================================================= -->
-    <!--      BOTÕES DE DOWNLOAD DIRETO DO GITHUB              -->
+    <!--      BOTÕES DE DOWNLOAD (LINKS APPGEYSER )             -->
     <!-- ======================================================= -->
     <div class="download-container">
         <!-- Botão para o APK do Professor -->
-        <a href="https://SEU-USUARIO.github.io/SEU-REPOSITORIO/FitCraft_Professor.apk" class="botao-download-apk" download>
-            <img src="https://img.icons8.com/fluency/48/android-os.png" alt="Android icon"/>
+        <a href="https://appsgeyser.io/19452059/FitCraft" target="_blank" rel="noopener noreferrer" class="botao-download-apk">
+            <img src="https://img.icons8.com/fluency/48/android-os.png" alt="Ícone Android"/>
             Baixar App Professor (APK )
         </a>
 
         <!-- Botão para o APK do Aluno -->
-        <a href="https://SEU-USUARIO.github.io/SEU-REPOSITORIO/FitCraft.apk" class="botao-download-apk" download>
-            <img src="https://img.icons8.com/fluency/48/android-os.png" alt="Android icon"/>
+        <a href="https://appsgeyser.io/19452052/FitCraft%20Aluno" target="_blank" rel="noopener noreferrer" class="botao-download-apk">
+            <img src="https://img.icons8.com/fluency/48/android-os.png" alt="Ícone Android"/>
             Baixar App Aluno (APK )
         </a>
     </div>
     <!-- ======================================================= -->
 
+    <!-- Botão de Instalação PWA (inicialmente escondido) -->
     <button id="btn-instalar" style="display: none;">⭐ Instalar Aplicativo</button>
     <button id="btn-ajuda-instalacao">Como Instalar o App?</button>
 
+    <!-- Modal de Ajuda para Instalação -->
     <div id="modal-ajuda" class="modal-overlay" style="display: none;">
         <div class="modal-content">
             <button id="btn-fechar-modal" class="modal-close-btn">&times;</button>
@@ -71,6 +80,7 @@
         </div>
     </div>
 
+    <!-- Modal de Instruções para iPhone (inicialmente escondido) -->
     <div id="ios-install-prompt" style="display: none;">
         <div class="prompt-content">
             <h3>Instale o FitCraft no seu iPhone</h3>
